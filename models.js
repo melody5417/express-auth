@@ -15,5 +15,13 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
+const TokenSchema = new mongoose.Schema({
+    token: {type: String},
+    uid: {type: String},
+    status: {type: Number}, // 0-normal, 1-kicked
+    updatetime: {type: Number}, // 时间戳
+});
+const Token = mongoose.model('Token', TokenSchema);
+
 // exports {} 方便再增加模型
-module.exports = { User }
+module.exports = { User, Token }
