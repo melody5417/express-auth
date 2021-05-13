@@ -19,10 +19,58 @@ app.get('/api/users', async (req, res) => {
 })
 
 const auth = async (req, res, next) => {
-    // token -> id -> User
     const token = String(req.headers.authorization).split(' ').pop()
+
+    // 1. 校验token是否存在
+    const tokenModel = await Token.findOne({ token })
+    if (!tokenModel) {
+        res.status(422).send({
+            errMsg: 'token不存在'
+        });
+    }
+
+    // 2. 校验uid是否匹配
+    // token -> id -> User
     const tokenData = jwt.verify(token, APP_KEY);
+    if (tokenData.id !== tokenModel.uid) {
+        res.status(422).send({
+            errMsg: 'user id is not matched'
+        });
+    }
+
+    // 3. 根据uid查找用户，判断用户是否存在，可能离职啥的
     const user = await User.findById(tokenData.id)
+    if (!user) {
+        res.status(422).send({
+            errMsg: 'user is not found'
+        });
+    }
+
+    // 4. 校验token状态，是否为踢掉
+    if (token.status === 1) {
+        res.send({
+            errMsg: 'user login at other computer'
+        });
+    }
+
+    // 5. 校验token有效期，过期则删掉返回
+    const duration = Date.now() - tokenModel.updatetime
+    if (duration > TOKEN_VALID_DURATION) {
+        await Token.deleteOne({ _id: tokenModel._id })
+        res.send({
+            errMsg: 'token has expired'
+        });
+    }
+
+    // 6. 判断接口是否具有自动续期token权限，如果支持续期，则token续期
+    if (req.autoRenew) {
+        await Token.updateOne({
+            _id: tokenModel._id
+        }, {
+            updatetime: Date.now()
+        })
+    }
+
     req.user = user
     next();
 }

@@ -27,5 +27,5 @@ post {{url}}/login
 
 ### 个人信息
 get {{url}}/profile
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWJlNGU5ZjYwMGY3YTU5ZmUxYzAzOSIsImlhdCI6MTYyMDgzMTM5N30.4_fDhjbvhOOrZixLTtuCJuYQLhibvYd3jkKzLPmqZyc
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWJlNGU5ZjYwMGY3YTU5ZmUxYzAzOSIsImlhdCI6MTYyMDg4Nzk5NX0.iHWx0UG06QN2dIKTtS2WXchoSeQHNhddjFzhvT16A08
 
