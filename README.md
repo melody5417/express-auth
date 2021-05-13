@@ -1,45 +1,35 @@
-* [1小时搞定NodeJs(Express)的用户注册、登录和授权](https://www.bilibili.com/video/BV1Nb411j7AC)
-
 * 安装依赖
+
 ```
-npm i express@next // 一定要装5.+版本，因为要支持async/await
-npm i mongoose // 用它来操作mongodb数据库
-npm i -g nodemon // 用来起node服务
-``` 
-* 写代码
+npm install
 ```
-// server.js
-// 创建server，并监听
-// 写路由
-```
+
 * 启动服务
+
 ```
 nodemon server.js
 ```
 
-* 安装vscode插件 REST Client
+* 测试test.http文件的接口
 
-类似于postman， 用代码的形式发起请求，更方便一些。
+* 静态文件托管 (https://www.bilibili.com/video/BV1gt411S7ah)
 
-* 创建 test.http 测试接口
+创建public文件夹，存储例如html等静态资源。
+通过中间件，可以直接或间接访问资源
 
-这里注意定义变量时不能写字符串
+* CORS 跨域问题解决
+跨域总体思想：
+server是运行在4000端口，
+home.html通过插件 Live Server 打开(安装插件后，按住文件右键菜单用插件打开)，可以新起一个服务，在其他端口打开，
+这样在home.html里添加调用访问server的服务就是跨端口，也就跨域了。
 
-* 添加登录和注册
+解决：安装npm包 cors
 
-注意json头格式
-接口一般都会带个前缀，比如api
-
-* 定义数据库 
-为了解耦逻辑，再创建一个model.js, 因为数据库里都要定义模型来操作。
-mongodb 的一个优点，不需要提前创建数据库表等，直接连接，如果没有会自动创建。
+* mongodb 相关操作
+安装依赖
 ```
- mongod --dbpath . // 启动服务  需要指定数据库所在位置
+npm i mongoose --save
 ```
-密码明文存储: 不可逆加密，加盐加密，``` npm i bcrypt```
-昵称唯一 unique
 
-* token
-``` npm i jsonwebtoken ```
-
-* auth 中间件
+put 整条记录覆盖
+patch 部分修改
